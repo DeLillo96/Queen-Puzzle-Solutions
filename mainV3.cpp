@@ -1,25 +1,16 @@
 #include <iostream>
 #include <vector>
 
-uint s = 4, c = 0;
+uint s, c = 0;
 std::vector<std::vector <int>> repo;
 
 int getSizeOfChessboard(int argc, char *argv[]) {
-    uint size = 0, i;
     if(argc == 1 || argc > 2 ) {
-        do {
-            printf("insert the size of the chessboard : ");
-            scanf("%d", &size);
-        } while (size < 4);
+        printf("ERROR!\nlunch me with size of chessboard:\n\t./<program_name> n\nRemember: n is positive!");
+        exit(0);
     } else {
-        size = strtol(argv[1], NULL, 10);
-        if(size < 4) {
-            printf("ERROR!\n");
-            if(size != 0) printf("The chessboard is too small\n");
-            exit(0);
-        }
+        return strtol(argv[1], NULL, 10);
     }
-    return size;
 }
 
 std::vector<int> merge(std::vector<int> v1, std::vector<int> v2) {
@@ -50,17 +41,18 @@ std::vector<int> gfpx(uint x, uint y){
 
 void * pr(std::vector<int> v) {
     uint x, i, y;
-    i = 1;
+    i = 0;
     printf("pr: ");
     for(uint j = 0; j < v.size(); j++) printf("%d ", v[j]);
     printf("\n");
-    /*printf("\t");
+    /* USE FOR SEXY PRINT * /
+    printf("\t");
     for (x = 0; x < s; x++) printf("  %d ", x);
     printf("\n");
     for(x = 0; x < s; x++) {
         printf("%d\t", x);
-        for(y = 0; y < s && i <= s; y++) {
-            if(v[s - i] == y + s * x) {
+        for(y = 0; y < s && i < s; y++) {
+            if(v[i] == y + s * x) {
                 printf("| @ ");
                 i++;
             } else {
@@ -71,25 +63,24 @@ void * pr(std::vector<int> v) {
     }/**/
 }
 
-std::vector<int> sol(uint n, std::vector<int> pool) {
-    uint i;
-    std::vector<int> ret, next;
+void * sol(uint n, std::vector<int> pool, std::vector<int> pushed) {
+    uint i, max;
 
-    ret.push_back(n);
+    pushed.push_back(n);
+    max = s * (pushed.size() + 1);
     for(i = 0; i < pool.size(); i++) {
-        if(pool[i]/s > (n/s + 1)) break;
-        ret = sol(pool[i], merge(pool, repo[pool[i]]));
-        ret.push_back(n);
-        if(ret.size() <= s ) {
-            pr(ret);
-            c++; //Tenere il conto delle soluzioni
-        }
+        if(pool[i] >= max) break;
+        sol(pool[i], merge(pool, repo[pool[i]]), pushed);
     }
-    return ret;
+    if(pushed.size() == s) {
+        pr(pushed);
+        c++;
+    }
 }
 
 int main(int argc, char *argv[]) {
     s = getSizeOfChessboard(argc, argv);
+    std::vector<int> v;
 
     for(uint x = 0; x < s; x++) {
         for(uint y = 0; y < s; y++) {
@@ -97,19 +88,21 @@ int main(int argc, char *argv[]) {
         }
     }
 
-/** TEST FOR FIRST SETS OF DATA ** /
-    for(uint x = 0; x < repo.size(); x++) {
+/** TESTS** /
+    for(uint x = 0; x < repo.size(); x++) { //REPOSITORY
         printf("%d :", x);
         for(uint y = 0; y < repo[x].size(); y++) {
             printf("%d ", repo[x][y]);
         }
         printf("\n");
     }
+    std::vector <int> x = merge(repo[0],repo[6]); //MERGE
 /**/
 
-    //std::vector <int> x = merge(repo[0],repo[6]); //TEST FOR MERGE
-    //for(uint j = 0; j < x.size(); j++) printf("%d\n", x[j]);
-    for(uint i = 0; i < s + 1; i++) sol(i, repo[i]);
-    printf("ok, printed %d solutions\n", c);
+    for(uint i = 0; i < s; i++) {
+        printf("%d %%\n", (i*100)/s);
+        sol(i, repo[i], v);
+    }
+    printf("finish!\nfound %d solutions\n", c);
     return 0;
 }
