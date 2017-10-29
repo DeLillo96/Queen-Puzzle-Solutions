@@ -6,7 +6,7 @@ std::vector<std::vector <int>> repo;
 
 int getSizeOfChessboard(int argc, char *argv[]) {
     if(argc == 1 || argc > 2 ) {
-        printf("ERROR!\nlunch me with size of chessboard:\n\t./<program_name> n\nRemember: n is positive!");
+        std::cout << "ERROR!\nlunch me with size of chessboard:\n\t./<program_name> n\nRemember: n is positive!";
         exit(0);
     } else {
         return strtol(argv[1], NULL, 10);
@@ -42,9 +42,9 @@ std::vector<int> gfpx(uint x, uint y){
 void * pr(std::vector<int> v) {
     uint x, i, y;
     i = 0;
-    printf("pr: ");
-    for(uint j = 0; j < v.size(); j++) printf("%d ", v[j]);
-    printf("\n");
+    std::cout << "pr: ";
+    for(uint j = 0; j < v.size(); j++) std::cout << v[j] << " ";
+    std::cout << "\n";
     /* USE FOR SEXY PRINT * /
     printf("\t");
     for (x = 0; x < s; x++) printf("  %d ", x);
@@ -100,9 +100,9 @@ int main(int argc, char *argv[]) {
 /**/
 
     for(uint i = 0; i < s; i++) {
-        printf("%d %%\n", (i*100)/s);
+        std::cout << (i*100)/s << "%\n";
         sol(i, repo[i], v);
     }
-    printf("finish!\nfound %d solutions\n", c);
+    std::cout << "finish!\nfound " << c << " solutions\n";
     return 0;
 }
