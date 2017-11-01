@@ -42,7 +42,7 @@ std::vector<int> gfpx(uint x, uint y){
 void * pr(std::vector<int> v) {
     uint x, i, y;
     i = 0;
-    std::cout << "pr: ";
+    std::cout << " - ";
     for(uint j = 0; j < v.size(); j++) std::cout << v[j] << " ";
     std::cout << "\n";
     /* USE FOR SEXY PRINT * /
@@ -64,11 +64,13 @@ void * pr(std::vector<int> v) {
 }
 
 void * sol(uint n, std::vector<int> pool, std::vector<int> pushed) {
-    uint i, max;
+    uint i, max, j;
 
     pushed.push_back(n);
     max = s * (pushed.size() + 1);
+    j = pushed.size() + pool.size();
     for(i = 0; i < pool.size(); i++) {
+        if(j - i < s) break;
         if(pool[i] >= max) break;
         sol(pool[i], merge(pool, repo[pool[i]]), pushed);
     }
@@ -98,7 +100,6 @@ int main(int argc, char *argv[]) {
     }
     std::vector <int> x = merge(repo[0],repo[6]); //MERGE
 /**/
-
     for(uint i = 0; i < s; i++) {
         std::cout << (i*100)/s << "%\n";
         sol(i, repo[i], v);
