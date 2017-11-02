@@ -1,21 +1,23 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
+using namespace std;
 uint s, c = 0;
-std::vector<std::vector <int>> repo;
+vector<vector <int>> repo;
 
 int getSizeOfChessboard(int argc, char *argv[]) {
     if(argc == 1 || argc > 2 ) {
-        std::cout << "ERROR!\nlunch me with size of chessboard:\n\t./<program_name> n\nRemember: n is positive!";
+        cout << "ERROR!\nlunch me with size of chessboard:\n\t./<program_name> n\nRemember: n is positive!";
         exit(0);
     } else {
         return strtol(argv[1], NULL, 10);
     }
 }
 
-std::vector<int> merge(std::vector<int> v1, std::vector<int> v2) {
+vector<int> merge(vector<int> v1, vector<int> v2) {
     uint i1, i2;
-    std::vector<int> r;
+    vector<int> r;
     for(i1 = 0, i2 = 0; v1.size() > i1 && v2.size() > i2;) {
         if(v1[i1] <= v2[i2]){
             if(v1[i1] == v2[i2]) r.push_back(v1[i1]);
@@ -25,8 +27,8 @@ std::vector<int> merge(std::vector<int> v1, std::vector<int> v2) {
     return r;
 }
 
-std::vector<int> gfpx(uint x, uint y){
-    std::vector<int> v;
+vector<int> gfpx(uint x, uint y){
+    vector<int> v;
     uint x1 = x + 1;
     if(x == (s - 1)) return v;
     for(uint x1 = x + 1; x1 < s; x1++) {
@@ -39,31 +41,27 @@ std::vector<int> gfpx(uint x, uint y){
     return v;
 }
 
-void * pr(std::vector<int> v) {
+void * pr(vector<int> v) {
     uint x, i, y;
     i = 0;
-    std::cout << " - ";
-    for(uint j = 0; j < v.size(); j++) std::cout << v[j] << " ";
-    std::cout << "\n";
-    /* USE FOR SEXY PRINT * /
-    printf("\t");
-    for (x = 0; x < s; x++) printf("  %d ", x);
-    printf("\n");
+    cout << '\t';
+    for (x = 0; x < s; x++) cout << "  " << x << " ";
+    cout << '\n';
     for(x = 0; x < s; x++) {
-        printf("%d\t", x);
+        cout << x << '\t';
         for(y = 0; y < s && i < s; y++) {
             if(v[i] == y + s * x) {
-                printf("| @ ");
+                cout << "| X ";
                 i++;
             } else {
-                printf("|   ");
+                cout << "|   ";
             }
         }
         printf("\n");
-    }/**/
+    }
 }
 
-void * sol(uint n, std::vector<int> pool, std::vector<int> pushed) {
+void * sol(uint n, vector<int> pool, vector<int> pushed) {
     uint i, max, j;
 
     pushed.push_back(n);
@@ -82,7 +80,7 @@ void * sol(uint n, std::vector<int> pool, std::vector<int> pushed) {
 
 int main(int argc, char *argv[]) {
     s = getSizeOfChessboard(argc, argv);
-    std::vector<int> v;
+    vector<int> v;
 
     for(uint x = 0; x < s; x++) {
         for(uint y = 0; y < s; y++) {
@@ -90,20 +88,9 @@ int main(int argc, char *argv[]) {
         }
     }
 
-/** TESTS** /
-    for(uint x = 0; x < repo.size(); x++) { //REPOSITORY
-        printf("%d :", x);
-        for(uint y = 0; y < repo[x].size(); y++) {
-            printf("%d ", repo[x][y]);
-        }
-        printf("\n");
-    }
-    std::vector <int> x = merge(repo[0],repo[6]); //MERGE
-/**/
     for(uint i = 0; i < s; i++) {
-        std::cout << (i*100)/s << "%\n";
         sol(i, repo[i], v);
     }
-    std::cout << "finish!\nfound " << c << " solutions\n";
+    cout << "finish!\nfound " << c << " solutions\n";
     return 0;
 }
