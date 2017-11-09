@@ -65,6 +65,7 @@ void * sol(uint n, vector<int> pool, vector<int> pushed) {
     uint i, max, j;
 
     pushed.push_back(n);
+    printf("ciao\n");
     max = s * (pushed.size() + 1);
     j = pushed.size() + pool.size();
     for(i = 0; i < pool.size(); i++) {
