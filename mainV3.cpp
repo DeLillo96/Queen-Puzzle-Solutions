@@ -65,11 +65,10 @@ void * sol(uint n, vector<int> pool, vector<int> pushed) {
     uint i, max, j;
 
     pushed.push_back(n);
-    printf("ciao\n");
     max = s * (pushed.size() + 1);
-    j = pushed.size() + pool.size();
+    j = pushed.size() + pool.size() - s;
     for(i = 0; i < pool.size(); i++) {
-        if(j - i < s) break;
+        if(j < i) break;
         if(pool[i] >= max) break;
         sol(pool[i], merge(pool, repo[pool[i]]), pushed);
     }
