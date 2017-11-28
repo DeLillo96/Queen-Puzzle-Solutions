@@ -16,10 +16,8 @@ int getSizeOfChessboard(int argc, char *argv[]) {
 }
 
 vector<int> merge(vector<int> v1, vector<int> v2) {
-    uint i = 0, j = 0, n1 = v1.size(), n2 = v2.size();
     vector<int> r;
-
-    while (i < n1 && j < n2){
+    for (uint i = 0, j = 0; i < v1.size() && j < v2.size();){
         if (v1[i] < v2[j]) i++;
         else if (v1[i] > v2[j]) j++;
         else {
@@ -30,7 +28,7 @@ vector<int> merge(vector<int> v1, vector<int> v2) {
     return r;
 }
 
-vector<int> gfpx(uint x, uint y){
+vector<int> get_free_position(uint x, uint y){
     vector<int> v;
     uint x1 = x + 1;
     if(x == (s - 1)) return v;
@@ -65,33 +63,30 @@ void * pr(vector<int> v) {
 }
 
 void * sol(uint n, vector<int> pool, vector<int> pushed) {
-    uint i, max, j;
-
     pushed.push_back(n);
     if(pushed.size() == s) {
         pr(pushed);
         c++;
         return NULL;
     }
-    max = s * (pushed.size() + 1);
-    j = pushed.size() + pool.size() - s;
-    for(i = 0; i < pool.size() && j >= i && pool[i] < max; i++) {
-        sol(pool[i], merge(pool, repo[pool[i]]), pushed);
-    }
+    for(
+        uint i = 0;
+        i < pool.size() &&
+        (pushed.size() + pool.size() - s) >= i &&
+        pool[i] < (s * (pushed.size() + 1));
+        i++
+    ) sol(pool[i], merge(pool, repo[pool[i]]), pushed);
 }
 
 int main(int argc, char *argv[]) {
     s = getSizeOfChessboard(argc, argv);
 
-    for(uint x = 0; x < s; x++) {
-        for(uint y = 0; y < s; y++) {
-            repo.push_back(gfpx(x, y));
-        }
-    }
+    for(uint x = 0; x < s; x++)
+        for(uint y = 0; y < s; y++)
+            repo.push_back(get_free_position(x, y));
 
-    for(uint i = 0; i < s; i++) {
+    for(uint i = 0; i < s; i++) 
         sol(i, repo[i], vector <int> ());
-    }
     cout << "finish!\nfound " << c << " solutions\n";
     return 0;
 }
