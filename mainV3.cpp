@@ -16,13 +16,16 @@ int getSizeOfChessboard(int argc, char *argv[]) {
 }
 
 vector<int> merge(vector<int> v1, vector<int> v2) {
-    uint i1, i2;
+    uint i = 0, j = 0, n1 = v1.size(), n2 = v2.size();
     vector<int> r;
-    for(i1 = 0, i2 = 0; v1.size() > i1 && v2.size() > i2;) {
-        if(v1[i1] <= v2[i2]){
-            if(v1[i1] == v2[i2]) r.push_back(v1[i1]);
-            i1++;
-        } else i2++;
+
+    while (i < n1 && j < n2){
+        if (v1[i] < v2[j]) i++;
+        else if (v1[i] > v2[j]) j++;
+        else {
+            r.push_back(v2[j++]);
+            i++;
+        }
     }
     return r;
 }
