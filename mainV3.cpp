@@ -65,22 +65,20 @@ void * sol(uint n, vector<int> pool, vector<int> pushed) {
     uint i, max, j;
 
     pushed.push_back(n);
-    max = s * (pushed.size() + 1);
-    j = pushed.size() + pool.size() - s;
-    for(i = 0; i < pool.size(); i++) {
-        if(j < i) break;
-        if(pool[i] >= max) break;
-        sol(pool[i], merge(pool, repo[pool[i]]), pushed);
-    }
     if(pushed.size() == s) {
         pr(pushed);
         c++;
+        return NULL;
+    }
+    max = s * (pushed.size() + 1);
+    j = pushed.size() + pool.size() - s;
+    for(i = 0; i < pool.size() && j >= i && pool[i] < max; i++) {
+        sol(pool[i], merge(pool, repo[pool[i]]), pushed);
     }
 }
 
 int main(int argc, char *argv[]) {
     s = getSizeOfChessboard(argc, argv);
-    vector<int> v;
 
     for(uint x = 0; x < s; x++) {
         for(uint y = 0; y < s; y++) {
@@ -89,7 +87,7 @@ int main(int argc, char *argv[]) {
     }
 
     for(uint i = 0; i < s; i++) {
-        sol(i, repo[i], v);
+        sol(i, repo[i], vector <int> ());
     }
     cout << "finish!\nfound " << c << " solutions\n";
     return 0;
