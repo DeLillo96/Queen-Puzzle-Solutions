@@ -44,11 +44,11 @@ vector<int> gfpx(uint x, uint y){
 void * pr(vector<int> v) {
     uint x, i, y;
     i = 0;
-    cout << '\t';
+    cout << "  ";
     for (x = 0; x < s; x++) cout << "  " << x << " ";
     cout << '\n';
     for(x = 0; x < s; x++) {
-        cout << x << '\t';
+        cout << char('A' + x) << ' ';
         for(y = 0; y < s && i < s; y++) {
             if(v[i] == y + s * x) {
                 cout << "| X ";
@@ -57,7 +57,7 @@ void * pr(vector<int> v) {
                 cout << "|   ";
             }
         }
-        printf("\n");
+        cout << "|\n";
     }
 }
 
