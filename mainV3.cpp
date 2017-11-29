@@ -72,7 +72,7 @@ void * sol(uint n, vector<int> pool, vector<int> pushed) {
     for(
         uint i = 0;
         i < pool.size() &&
-        (pushed.size() + pool.size() - s) >= i &&
+        (pushed.size() + pool.size()) >= s &&
         pool[i] < (s * (pushed.size() + 1));
         i++
     ) sol(pool[i], merge(pool, repo[pool[i]]), pushed);
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
         for(uint y = 0; y < s; y++)
             repo.push_back(get_free_position(x, y));
 
-    for(uint i = 0; i < s; i++) 
+    for(uint i = 0; i < s; i++)
         sol(i, repo[i], vector <int> ());
     cout << "finish!\nfound " << c << " solutions\n";
     return 0;
