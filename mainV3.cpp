@@ -6,7 +6,7 @@ using namespace std;
 uint s, c = 0;
 vector<vector <int>> repo;
 
-int getSizeOfChessboard(int argc, char *argv[]) {
+int get_size_of_chessboard(int argc, char *argv[]) {
     if(argc == 1 || argc > 2 ) {
         cout << "ERROR!\nlunch me with size of chessboard:\n\t./<program_name> n\nRemember: n is positive!";
         exit(0);
@@ -79,7 +79,7 @@ void * sol(uint n, vector<int> pool, vector<int> pushed) {
 }
 
 int main(int argc, char *argv[]) {
-    s = getSizeOfChessboard(argc, argv);
+    s = get_size_of_chessboard(argc, argv);
 
     for(uint x = 0; x < s; x++)
         for(uint y = 0; y < s; y++)
