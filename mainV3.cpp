@@ -15,7 +15,7 @@ int get_size_of_chessboard(int argc, char *argv[]) {
     }
 }
 
-vector<int> merge(vector<int> v1, vector<int> v2) {
+vector<int> intersection(vector<int> v1, vector<int> v2) {
     vector<int> r;
     for (uint i = 0, j = 0; i < v1.size() && j < v2.size();){
         if (v1[i] < v2[j]) i++;
@@ -42,7 +42,7 @@ vector<int> get_free_position(uint x, uint y){
     return v;
 }
 
-void * pr(vector<int> v) {
+void * print(vector<int> v) {
     uint x, i, y;
     i = 0;
     cout << "  ";
@@ -62,10 +62,10 @@ void * pr(vector<int> v) {
     }
 }
 
-void * sol(uint n, vector<int> pool, vector<int> pushed) {
+void * solutions(uint n, vector<int> pool, vector<int> pushed) {
     pushed.push_back(n);
     if(pushed.size() == s) {
-        pr(pushed);
+        print(pushed);
         c++;
         return NULL;
     }
@@ -75,7 +75,7 @@ void * sol(uint n, vector<int> pool, vector<int> pushed) {
         (pushed.size() + pool.size()) >= s &&
         pool[i] < (s * (pushed.size() + 1));
         i++
-    ) sol(pool[i], merge(pool, repo[pool[i]]), pushed);
+    ) solutions(pool[i], intersection(pool, repo[pool[i]]), pushed);
 }
 
 int main(int argc, char *argv[]) {
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
             repo.push_back(get_free_position(x, y));
 
     for(uint i = 0; i < s; i++)
-        sol(i, repo[i], vector <int> ());
+        solutions(i, repo[i], vector <int> ());
     cout << "finish!\nfound " << c << " solutions\n";
     return 0;
 }
