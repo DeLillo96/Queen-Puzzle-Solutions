@@ -76,12 +76,14 @@ void * print(vector<int> v) {
 
 void * solutions(uint n, vector<int> pool, vector<int> pushed) {
     pushed.push_back(n);
-    if(pushed.size() == s) {
+    int size_p = pushed.size(), size_r = size_p + pool.size();
+    if(size_p == s) {
         print(pushed);
         c++;
         return NULL;
     }
-    while(0 < pool.size() && (pushed.size() + pool.size()) >= s && pool[0] < (s * (pushed.size() + 1))) {
+    size_p++;
+    for(; size_r >= s && pool[0] < (s * size_p); size_r--) {
         solutions(pool[0], subbed(pool, repo[pool[0]]), pushed);
         pool.erase(pool.begin());
     }
@@ -90,10 +92,18 @@ void * solutions(uint n, vector<int> pool, vector<int> pushed) {
 int main(int argc, char *argv[]) {
     s = get_size_of_chessboard(argc, argv);
 
-    for(uint x = 0; x < s; x++) repo.push_back(get_free_position(x, 0));
-    for(uint y = 1; y < s; y++)
-        for(uint x = 0; x < s; x++)
-            repo.push_back(get_occuped_position(x, y));
+    for(uint y = 0; y < s; y++) {
+        cout << y << '\n';
+        if (y == 0) {
+            for(uint x = 0; x < s; x++) {
+                repo.push_back(get_free_position(x, 0));
+            }
+        } else {
+            for(uint x = 0; x < s; x++){
+                repo.push_back(get_occuped_position(x, y));
+            }
+        }
+    }
 
     for(uint i = 0; i < s; i++)
         solutions(i, repo[i], vector <int> ());
